@@ -1,0 +1,15 @@
+{
+  "name": "ts071120",
+  "version": "1.0.0",
+  "description": "",
+  "main": "base.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.0.5"
+  }
+}
