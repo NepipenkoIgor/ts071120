@@ -33,3 +33,5 @@ function sendUpdates(emailAddr: string | string[]) {
         sendEmail(emailAddr.trim());
     }
 }
+
+let a = [1,2,3].includes(1);
