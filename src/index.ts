@@ -1,74 +1,59 @@
-const user: {
-    readonly firstName: string;
-    readonly age?: number
-} = {
-    firstName: 'Ihor',
-    age: 35
-};
-user.age = 21;
-// user = {
-//     firstName: 'Ihor',
+// type/interface/functions/class
+
+
+// interface IUser<Info extends { male: boolean }, Id = number> {
+//     id: Id;
+//     name: string;
+//     info: Info
 // }
 //
-// user = {
-//     firstName: 'Ihor',
-//     age: 35
+//
+// let user: IUser<{ male: boolean }> = {
+//     id: 11,
+//     name: 'Ihor',
+//     info: {
+//         male: true
+//     }
+// }
+//
+// let admin: IUser<{ male: boolean, subjects: string[] }, string> = {
+//     id: '11sasda1',
+//     name: 'Eugene',
+//     info: {
+//         male: true,
+//         subjects: ['JS', 'TS']
+//     }
 // }
 
-let keys: keyof typeof user = 'sdasd';
-let key1: (typeof user)['firstName'] = 1;
 
-let hashMap: {
-    [id: string]: typeof user;
+interface IUserAccount {
+    name: string;
+    age: number;
 }
 
-const users: typeof hashMap = {
-    'asdasd24234asdasd': {
-        firstName: 'Ihor',
-        age: 35
-    },
-    'asd12312asdas123': {
-        firstName: 'Ihor',
-        age: 35
-    },
+interface IProduct {
+    title: string;
+    price: number
 }
 
-const u1 = users.asdasd24234asdasd
+interface IState {
+    user: IUserAccount;
+    products: IProduct[]
+}
+
+const state: IState = {
+    user: {name: 'Ihor', age: 34},
+    products: [{title: 'IPhone12', price: 1000}]
+}
+
+type Select<State> = <Field extends (keyof State)>(state: State, field: Field) => State[Field];
+
+const select: Select<IState> = (storeState, field) => storeState[field];
+
+const user: IUserAccount = select(state, 'user');
+const products: IProduct[] = select(state, 'products');
 
 
-let nums: (typeof user)[] = [{
-    firstName: 'Ihor',
-    age: 35
-}]
+function fn<T>(_f: T): void {
 
-let arr: number[] = [1, 2, 3, 4, 4]
-
-arr[100] = 1;
-arr.push(1);
-//
-// let a: typeof arr[99] = 'd';
-
-// let u2: readonly [id: number, user: typeof user] = [1, {
-//     firstName: 'Ihor',
-//     age: 35
-// }]
-//
-// u2.push(1);
-// u2[100] = 0;
-//
-// let a: typeof u2 = [1, {
-//     firstName: 'Eugene',
-//     age: 35
-// }]
-
-
-let x = 10 as const;
-let b: typeof x = 11;
-
-let y = [10, 20] as const;
-let b1: typeof y = [10, 20];
-b1[1] = 2;
-
-let z = {name: 'Ihor'} as const;
-let b2: typeof z = {name: 'Ihor'};
-b2.name = 'Eugene';
+}
