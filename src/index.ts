@@ -1,130 +1,54 @@
-interface IPointX {
-    x: sn;
-}
+import { Range, Validate } from './utils'
 
-// interface IPointY {
-//     y: sn;
+// const inputEl = document.querySelector('input') as HTMLInputElement;
+//
+// class Search {
+//
+//     @CheckInRunTime
+//     @SavePersistence
+//     public initialValueNew!: string;
+//
+//     public constructor(
+//         private readonly el: HTMLInputElement
+//     ) {
+//         this.el.addEventListener('input', this.onSearch.bind(this))
+//         console.log(this.initialValueNew);
+//     }
+//
+//     @Debounce(300)
+//     @LogInputEvent
+//     @LogToSentry
+//     private onSearch(_e: Event): void {
+//         // if ((_e.target as HTMLInputElement).value.length > 3) {
+//         //     throw  new Error('My Error');
+//         // }
+//         // console.log('IN onSearch', _e);
+//
+//         this.initialValueNew = (_e.target as HTMLInputElement).value;
+//     }
+//
 // }
+//
+// const search = new Search(inputEl)
 
-type sn = string | number;
+// setTimeout(() => {
+//     (search.initialValueNew as any) = 123;
+// }, 7000)
 
-class Point implements IPointX {
-
-    #p: number = 4;
-
-    public constructor(x: number, y: string)
-    public constructor(x: string, y: number, z: number)
-    public constructor(
-        public x: sn,
-        protected y: sn,
-        private z?: number
+class Calculator {
+    @Validate
+    public updatePercentage(
+        @Range(0, 100) _oldValue: number,
+        @Range(30, 70)   _newValue: number
     ) {
-        // TODO private defineProperty
-        Object.defineProperty(this, '#p', {
-            get() {
-                return 'Some prop'
-            },
-        })
-        // tslint:disable-next-line:no-console
-        console.log(this.z, this.#p);
-    }
-
-    public sum(): number {
-        return Number(this.x) + Number(this.y);
-    }
-}
-
-// tslint:disable-next-line:max-classes-per-file
-class CustomPoint extends TimeStamped(Tagged(Point)) {
-    constructor(x: string, y: number, z: number) {
-        super(x, y, z);
-    }
-
-    public sum(): number {
-        return super.sum();
     }
 }
 
 
-let p1 = new Point(1, '1')
-let p2 = new CustomPoint('1', 1, 1);
-// tslint:disable-next-line:no-console
-console.log(p2.tags);
-console.log(p2.timestamp);
+const calc = new Calculator();
+calc.updatePercentage(0, 40);
 
-// tslint:disable-next-line:max-classes-per-file
-class Singleton {
-    private static instance: Singleton;
-
-    private constructor() {
-    }
-
-    public static getInstance(): Singleton {
-        if (!Singleton.instance) {
-            Singleton.instance = new Singleton();
-        }
-        return Singleton.instance;
-    }
-}
-
-
-const inst1 = Singleton.getInstance();
-const inst2 = Singleton.getInstance();
-const inst3 = Singleton.getInstance();
-const inst4 = Singleton.getInstance();
-const inst5 = Singleton.getInstance();
-
-console.log(inst5 === inst3);
-
-type Constructable = new (...args: any[]) => any;
-
-function TimeStamped<BaseClass extends Constructable>(BC: BaseClass) {
-    // tslint:disable-next-line:max-classes-per-file
-    return class extends BC {
-        public timestamp = new Date();
-    }
-}
-
-function Tagged<BaseClass extends Constructable>(BC: BaseClass) {
-    // tslint:disable-next-line:max-classes-per-file
-    return class extends BC {
-        public tags = ['TS', 'JS'];
-    }
-}
-
-
-abstract class AbstractControl<T> {
-    public abstract model: T;
-
-    public abstract getValue(): T;
-
-    public onFocus() {
-    }
-
-    public onBlur() {
-    }
-}
-
-interface IDropDownEl {
-    text: string;
-    value: string
-}
-
-class MHDropDown extends AbstractControl<IDropDownEl[]> {
-    public model = [];
-
-    public getValue(): IDropDownEl[] {
-        return this.model;
-    }
-}
-
-class MHInput extends AbstractControl<string> {
-    public model = '';
-
-    public getValue(): string {
-        return this.model;
-    }
-}
-
-
+setTimeout(() => {
+    calc.updatePercentage(40, 80);
+}, 7000)
 
