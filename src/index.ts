@@ -1,59 +1,75 @@
-// type/interface/functions/class
-
-
-// interface IUser<Info extends { male: boolean }, Id = number> {
-//     id: Id;
+// // T extends U ? X : Y;
+// type  un = undefined | null;
+// type NonUndefined<T> = T extends un ? never : T;
+// type snbun = string | number | boolean | undefined | null;
+// const val: NonUndefined<snbun> = true;
+//
+//
+// // arguments + return value
+//
+// const fn = (_a: number, _b: string) => {
+//     return true
+// };
+//
+// interface IA {
+//     (...args: any): any
+// }
+//
+// // TODO  [_a: number, _b: string] | boolean
+// type FunctionParamsReturnType<T> = T extends { (...args: infer P): infer R }      // (...args: [infer U, infer Z]) => infer R
+//     ? P | R
+//     : T
+//
+//
+// const val1: Parameters<typeof fn> = null;
+// interface IUser {
 //     name: string;
-//     info: Info
 // }
 //
 //
-// let user: IUser<{ male: boolean }> = {
-//     id: 11,
-//     name: 'Ihor',
-//     info: {
-//         male: true
-//     }
-// }
+// let arr: [() => IUser, () => number] = [() => ({name: 'Ihor'}), () => 1]
 //
-// let admin: IUser<{ male: boolean, subjects: string[] }, string> = {
-//     id: '11sasda1',
-//     name: 'Eugene',
-//     info: {
-//         male: true,
-//         subjects: ['JS', 'TS']
-//     }
-// }
+// type FirstReturnType<T> =
+//     T extends [infer U, ...unknown[]]
+//         ? U extends (...args: any[]) => infer R
+//         ? R
+//         : never
+//         : never;
+//
+//
+// let val: IUser = 1;
 
 
-interface IUserAccount {
+type NotReadonly<T> = {
+    -readonly [Prop in keyof T]-?: T[Prop]
+}
+
+// Remove by type
+
+type RemoveByType<T, E> = {
+    [P in keyof T]: E extends T[P] ? never : P
+}[keyof T]
+
+/*
+   { name: string;
+    age: number;
+    info: never;
+    subject: string[];
+   } []
+ */
+
+interface Person {
     name: string;
     age: number;
+    info: { male: boolean };
+    subject: string[];
 }
 
-interface IProduct {
-    title: string;
-    price: number
+interface IS {
+    name: string;
+    age: number;
+    info: never;
+    subject: string[];
 }
 
-interface IState {
-    user: IUserAccount;
-    products: IProduct[]
-}
-
-const state: IState = {
-    user: {name: 'Ihor', age: 34},
-    products: [{title: 'IPhone12', price: 1000}]
-}
-
-type Select<State> = <Field extends (keyof State)>(state: State, field: Field) => State[Field];
-
-const select: Select<IState> = (storeState, field) => storeState[field];
-
-const user: IUserAccount = select(state, 'user');
-const products: IProduct[] = select(state, 'products');
-
-
-function fn<T>(_f: T): void {
-
-}
+let a: IS[keyof IS] = null
