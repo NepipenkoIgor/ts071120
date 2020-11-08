@@ -6,6 +6,10 @@ export function isString(arg: string | number): arg is string {
 export function average(a: string, b: number): string;
 export function average(a: number, b: string): string;
 export function average(a: number, b: number, c: number): string;
+
+
+
+
 export function average(...args: (number | string)[]): string {
 
     let total: number = 0;
